@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文化产业观察站</title>
+<style>
+:root{
+  --bg:#F5F2EA; --surface:#FFFDF8; --surface-2:#FAF7F0; --ink:#1B1A17; --ink-2:#3C3932;
+  --muted:#716B5F; --line:#E2DBCD; --line-strong:#CEC5B3; --accent:#9C3D2E; --accent-soft:#F6E8E3;
+  --teal:#2F5D57; --teal-soft:#E7EFEC; --amber:#8A6316; --amber-soft:#F7EFDB;
+  --green:#3C6A4E; --green-soft:#E8F0E8; --grey-soft:#EDEAE1; --blue:#39566B; --blue-soft:#E6ECF1;
+  --radius:10px; --shadow:0 1px 2px rgba(27,26,23,.05),0 10px 30px -20px rgba(27,26,23,.35);
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","SimSun",Georgia,serif;
+  --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input,select{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+.hd{position:sticky;top:0;z-index:40;background:rgba(245,242,234,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hd__in{max-width:1280px;margin:0 auto;padding:0 26px;height:62px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.brand__mark{width:28px;height:28px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-family:var(--serif);font-size:14px}
+.brand__name{font-family:var(--serif);font-size:16px;letter-spacing:.05em}
+.brand__sub{display:block;font-size:10px;color:var(--muted);letter-spacing:.16em;line-height:1.2}
+.nav{display:flex;gap:2px}
+.nav a{padding:6px 11px;border-radius:6px;font-size:13.5px;color:var(--ink-2)}
+.nav a:hover{background:var(--grey-soft)}
+.nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.hd__right{margin-left:auto;font-size:12px;color:var(--muted);text-align:right;line-height:1.4}
+main{max-width:1280px;margin:0 auto;padding:0 26px 60px}
+
+.page-head{padding:28px 0 18px;display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.page-head h1{font-family:var(--serif);font-size:28px;margin:0;font-weight:600;letter-spacing:.02em}
+.page-head p{margin:0;color:var(--muted);font-size:13px;max-width:680px}
+.page-head .spacer{flex:1}
+.section{margin-top:26px}
+.section__head{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.section__head h2{font-family:var(--serif);font-size:17px;margin:0;font-weight:600}
+.section__head .rule{flex:1;height:1px;background:var(--line)}
+.section__head .note{font-size:12px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.pad{padding:18px 20px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:.93em}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:1px 8px;border-radius:999px;font-size:11.5px;line-height:1.75;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.chip--cn{background:#EDE7DE;border-color:transparent;color:#6B5842;font-weight:600}
+.chip--zj{background:var(--teal-soft);border-color:transparent;color:var(--teal);font-weight:600}
+.chip--bj{background:#F3E4DF;border-color:transparent;color:#8A3B2C;font-weight:600}
+.chip--sh{background:var(--blue-soft);border-color:transparent;color:var(--blue);font-weight:600}
+.chip--hz{background:#E9EFE9;border-color:transparent;color:#3F6047;font-weight:600}
+.chip--ok{background:var(--green-soft);border-color:#CFE0D2;color:var(--green)}
+.chip--pend{background:var(--amber-soft);border-color:#E5D3A6;color:var(--amber)}
+.chip--draft{background:var(--grey-soft);border-color:var(--line);color:var(--muted)}
+.chip--err{background:#FBEAE6;border-color:#EFC9C0;color:var(--accent)}
+.chip--key{background:var(--accent);border-color:var(--accent);color:#FFF8F4}
+.chip--topic{border-color:var(--line-strong);color:var(--muted);background:transparent}
+.chip--wrap{white-space:normal;line-height:1.6;padding:4px 9px;text-align:left}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.kpi__k{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.kpi__v{font-family:var(--serif);font-size:32px;line-height:1.25;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi__unit{font-family:var(--sans);font-size:11.5px;color:var(--muted);margin-left:3px;font-weight:400}
+.kpi__s{font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.kpis--compact{grid-template-columns:repeat(auto-fit,minmax(224px,1fr))}
+.kpis--compact .kpi__v{font-size:27px}
+.kpi--data{display:flex;flex-direction:column;gap:6px;padding:15px 16px}
+.kpi__head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.kpi__meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.kpi__period{font-size:11.5px;color:var(--ink-2);background:var(--grey-soft);border-radius:4px;padding:1px 6px}
+.kpi__foot{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:11px;color:var(--muted);margin-top:auto;padding-top:4px;border-top:1px dashed var(--line)}
+.kpi__next{color:var(--muted)}
+.kpi__spark{margin-top:2px;line-height:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;min-width:0}
+.kpi__spark svg{flex:0 0 auto}
+.kpi__basis{font-size:10.5px;color:var(--muted);line-height:1.4;min-width:0;flex:1 1 auto}
+.spark{overflow:visible}
+.statline{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12.5px;color:var(--muted)}
+.statline b{font-family:var(--serif);font-size:17px;color:var(--ink);margin-right:3px;font-variant-numeric:tabular-nums}
+tr.sparkrow td{background:var(--surface-2);padding:4px 12px 8px;border-top:none}
+tr.sparkrow .spark{margin-left:8px;vertical-align:middle}
+.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+.regions{display:flex;flex-direction:column;gap:10px}
+.region-row{display:grid;grid-template-columns:64px 1fr 40px;gap:10px;align-items:center;font-size:12.5px}
+.bar{height:8px;border-radius:4px;background:var(--grey-soft);overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--accent);opacity:.75}
+.region-row b{text-align:right;font-variant-numeric:tabular-nums}
+.module{display:flex;gap:12px;padding:13px 0;border-top:1px dashed var(--line);font-size:13px}
+.module:first-child{border-top:none}
+.module__icon{flex:0 0 28px;height:28px;border-radius:6px;background:var(--grey-soft);display:grid;place-items:center;font-family:var(--serif);font-size:13px;color:var(--ink-2)}
+.module__t{font-weight:600}
+.module__d{color:var(--muted);font-size:12px}
+.notice{border:1px solid var(--line-strong);background:var(--surface-2);border-radius:8px;padding:8px 12px;font-size:12.5px;color:var(--muted);margin-top:14px}
+.notice b{color:var(--ink-2)}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0 12px}
+.search{display:flex;align-items:center;gap:7px;border:1px solid var(--line-strong);border-radius:7px;padding:0 11px;background:var(--surface);flex:1;min-width:220px}
+.search input{border:none;background:none;outline:none;padding:8px 0;width:100%;font-size:13.5px}
+.search svg{width:14px;height:14px;color:var(--muted)}
+select.sel{border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);padding:7px 9px;font-size:13px;color:var(--ink-2)}
+.check{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);padding:0 4px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:6px;border:1px solid var(--line-strong);background:var(--surface);font-size:13px;color:var(--ink-2)}
+.btn:hover{background:var(--surface-2)}
+.btn--ghost{border-color:transparent;color:var(--muted)}
+.btn--sm{padding:4px 9px;font-size:12px}
+.count{font-size:12.5px;color:var(--muted);margin-left:auto}
+
+.tbl-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-weight:600;font-size:12px;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;letter-spacing:.03em}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface-2)}
+td.title{max-width:560px}
+td.title a{font-family:var(--serif);font-size:14.5px;line-height:1.5;font-weight:600}
+td.title a:hover{color:var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.center{text-align:center}
+td.grp{background:var(--surface-2);font-size:12px;color:var(--muted);letter-spacing:.06em;font-weight:600}
+
+.prow{display:grid;grid-template-columns:92px 1fr auto;gap:14px;align-items:start;padding:11px 0;border-top:1px dashed var(--line)}
+.prow:first-of-type{border-top:none;padding-top:2px}
+.prow__date{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
+.prow__main a{font-family:var(--serif);font-size:14.5px;font-weight:600;line-height:1.5}
+.prow__main a:hover{color:var(--accent)}
+.prow__meta{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+
+.state{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:54px 20px;text-align:center;color:var(--muted)}
+.state h3{font-family:var(--serif);font-size:17px;color:var(--ink);margin:0 0 6px}
+.state p{margin:0 0 14px;font-size:13px}
+.hint{font-size:12px;color:var(--muted);line-height:1.7}
+.hint b{color:var(--ink-2)}
+.insight{display:flex;flex-direction:column;gap:12px}
+.insight__item{display:grid;grid-template-columns:3px 1fr;gap:0 14px;padding:0}
+.insight__bar{background:var(--accent);border-radius:2px}
+.insight__body{padding:1px 0 2px}
+.insight__fact{font-size:13.5px;color:var(--ink);line-height:1.65}
+.insight__fact b{font-family:var(--serif);font-size:15px;margin:0 2px}
+.insight__row{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;margin-top:6px;font-size:12px;color:var(--muted)}
+.insight__label{color:var(--muted);flex:0 0 auto}
+.insight__cause{font-size:12px;color:var(--ink-2);line-height:1.7;margin-top:5px}
+.insight__cause em{font-style:normal;color:var(--muted)}
+.insight--up .insight__bar{background:var(--green)}
+.insight--down .insight__bar{background:var(--accent)}
+.insight__boundary{border-top:1px dashed var(--line);padding-top:10px;margin-top:2px}
+.digest{display:grid;grid-template-columns:repeat(2,1fr);gap:0 24px}
+.digest__item{padding:10px 0;border-bottom:1px dashed var(--line)}
+.digest__t{font-size:13.5px;font-weight:600;line-height:1.55}
+.digest__s{font-size:12px;color:var(--muted);line-height:1.7;margin-top:3px}
+.digest__r{font-size:11px;color:var(--accent);border:1px solid var(--line-strong);border-radius:4px;padding:0 5px;margin-right:6px;white-space:nowrap}
+.exh__intro{font-size:11.5px;color:var(--muted);line-height:1.65;margin-top:3px;max-width:560px}
+.archive{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.archive summary{cursor:pointer;font-size:12.5px;color:var(--ink-2)}
+.archive summary::marker{color:var(--muted)}
+.archive ul{margin:8px 0 0;padding-left:18px}
+.archive li{font-size:12px;color:var(--muted);line-height:1.9}
+.ft{border-top:1px solid var(--line);margin-top:46px;background:var(--surface-2)}
+.ft__in{max-width:1280px;margin:0 auto;padding:20px 26px 28px;display:flex;flex-wrap:wrap;gap:10px 30px;font-size:12px;color:var(--muted)}
+.ft b{color:var(--ink-2);font-weight:600}
+
+@media (max-width:1050px){.grid2{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){
+  .hd__in{padding:8px 14px;height:auto;flex-wrap:wrap;gap:8px}
+  .brand{order:1}.brand__sub{display:none}
+  .hd__right{order:2;font-size:11px}
+  .nav{order:3;width:100%;overflow-x:auto;padding-bottom:2px}
+  .nav a{padding:5px 9px;font-size:12.5px;white-space:nowrap}
+  main{padding:0 14px 50px}
+  .page-head{padding-top:20px}.page-head h1{font-size:23px}
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{padding:13px 13px}
+  .kpi__v{font-size:24px}
+  .kpis--compact .kpi__v{font-size:23px}
+  .digest{grid-template-columns:1fr;gap:0}
+  .prow{grid-template-columns:1fr;gap:4px}
+  .prow__meta{justify-content:flex-start}
+  .toolbar{gap:6px}.search{min-width:100%}
+  .ft__in{padding:16px 14px 24px}
+}
+</style>
+</head>
+<body>
+<header class="hd">
+  <div class="hd__in">
+    <a class="brand" href="#/overview">
+      <span class="brand__mark" aria-hidden="true">文</span>
+      <span><span class="brand__name">文化产业观察站</span><span class="brand__sub">CULTURE OBSERVATORY</span></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#/overview" data-route="overview">概览</a>
+      <a href="#/policies" data-route="policies">政策库</a>
+      <a href="#/monitor" data-route="monitor">产业监测</a>
+    </nav>
+    <div class="hd__right" id="dataStamp"></div>
+  </div>
+</header>
+
+<main id="app"></main>
+<footer class="ft"><div class="ft__in">
+  <span><b>文化产业观察站</b> · 第一期</span>
+  <span>政策条目均链接至官方原文；摘要为自动抽取，仅供参考。</span>
+  <span>指标区分官方 / 测算 / 非官方三档，未获取数据留空。</span>
+</div></footer>
+
+<script>
+const DATA = __DATA__;
+
+const REGIONS = [
+  { code: 'national', label: '国家级', cls: 'cn' },
+  { code: 'zhejiang', label: '浙江省', cls: 'zj' },
+  { code: 'beijing', label: '北京市', cls: 'bj' },
+  { code: 'shanghai', label: '上海市', cls: 'sh' },
+  { code: 'hangzhou', label: '杭州市', cls: 'hz' }
+];
+
+const TOPIC_LABELS = {
+  film_tv: '影视文化', cultural_space: '空间文化', cultural_digitalization: '文化数字化',
+  cultural_consumption: '文化消费', industry_factors: '产业要素', industry_governance: '产业治理',
+  public_culture: '公共文化', heritage: '文化遗产'
+};
+
+const TOOL_LABELS = {
+  fiscal_support: '财政支持', tax_finance: '税费金融', space_facility: '空间设施',
+  talent_innovation: '人才创新', market_development: '市场培育', regulation_standard: '监管制度',
+  public_service: '公共服务', project_selection: '项目遴选'
+};
+
+const TYPE_LABELS = {
+  plan_guideline: '规划与指导', action_plan: '行动方案', support_policy: '产业扶持',
+  application_notice: '申报事项', funding_announcement: '资金公示', consultation: '征求意见',
+  implementation_rule: '实施细则', policy_interpretation: '政策解读', other: '其他'
+};
+
+const state = { filters: { q: '', region: '', topic: '', type: '', keyOnly: false }, monitorRegion: 'national' };
+
+const $ = (s, el) => (el || document).querySelector(s);
+const esc = (v) => String(v == null ? '' : v)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const fmtDate = (v) => (v ? String(v).slice(0, 10) : '未提供');
+const fmtTime = (v) => (v ? new Date(v).toLocaleString('zh-CN', { hour12: false }) : '—');
+const regionOf = (code) => REGIONS.find((r) => r.code === code) || { label: code || '未标注', cls: 'cn' };
+const regionChip = (code) => {
+  const r = regionOf(code);
+  return '<span class="chip chip--' + r.cls + '">' + esc(r.label) + '</span>';
+};
+const pct = (n, total) => (total ? Math.round((n / total) * 100) : 0);
+
+function fmtNum(v) {
+  if (v === null || v === undefined || v === '') return '—';
+  const n = Number(v);
+  if (!isFinite(n)) return String(v);
+  return Number.isInteger(n) ? n.toLocaleString('zh-CN') : String(n);
+}
+function fmtYoy(v) {
+  if (v === null || v === undefined) return '—';
+  const n = Number(v);
+  return (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+}
+function yoyClass(v) {
+  if (v === null || v === undefined) return 'chip--draft';
+  return Number(v) >= 0 ? 'chip--ok' : 'chip--err';
+}
+function levelChip(level) {
+  if (level === '官方') return '<span class="chip chip--ok">官方</span>';
+  if (level === '测算') return '<span class="chip chip--pend">测算值</span>';
+  return '<span class="chip chip--draft">非官方</span>';
+}
+
+/* ---------- 路由 ---------- */
+function parseHash() {
+  const raw = location.hash.replace(/^#\/?/, '');
+  const seg = raw.split('/').filter(Boolean);
+  return { name: seg[0] || 'overview' };
+}
+
+function render() {
+  const route = parseHash();
+  document.querySelectorAll('#nav a').forEach((a) => a.classList.toggle('on', a.dataset.route === route.name));
+  const app = $('#app');
+  if (route.name === 'policies') app.innerHTML = viewPolicies();
+  else if (route.name === 'monitor') app.innerHTML = viewMonitor();
+  else app.innerHTML = viewOverview();
+  bind();
+}
+
+/* ---------- 概览 ---------- */
+const FREQ_LABELS = { holiday: '档期/假期', monthly: '月度', quarterly: '季度', annual: '年度' };
+
+/* 距离某个日期还有多少天；无日期返回 null */
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  const t = new Date(dateStr + 'T00:00:00Z').getTime();
+  if (!isFinite(t)) return null;
+  return Math.round((t - Date.now()) / 86400000);
+}
+
+function freshnessChip(ind) {
+  if (ind.freshness === 'fresh') return '<span class="chip chip--ok">数据较新</span>';
+  if (ind.freshness === 'aging') return '<span class="chip chip--pend">可用</span>';
+  if (ind.freshness === 'stale') {
+    const d = daysUntil(ind.nextRelease);
+    if (d != null && d >= 0 && d <= 30) return '<span class="chip chip--pend">等待下一期</span>';
+    return '<span class="chip chip--err">待更新</span>';
+  }
+  return '<span class="chip chip--draft">发布日期未记录</span>';
+}
+
+function sparkPoints(history, basis) {
+  const key = basis === 'yoy' ? 'yoy' : 'value';
+  return (history || []).filter((h) => typeof h[key] === 'number' && isFinite(h[key]));
+}
+
+function sparkline(history, width, height, basis) {
+  if (basis === 'none') return '';
+  const key = basis === 'yoy' ? 'yoy' : 'value';
+  const pts = sparkPoints(history, basis).slice(-12);
+  if (pts.length < 3) return '';
+  const w = width || 132;
+  const h = height || 34;
+  const pad = 3;
+  const values = pts.map((p) => p[key]);
+  const min = Math.min.apply(null, values);
+  const max = Math.max.apply(null, values);
+  const span = max - min || 1;
+  const step = (w - pad * 2) / (pts.length - 1);
+  const coords = pts.map((p, i) => {
+    const x = pad + i * step;
+    const y = h - pad - ((p[key] - min) / span) * (h - pad * 2);
+    return [x, y];
+  });
+  const d = coords.map((c, i) => (i ? 'L' : 'M') + c[0].toFixed(1) + ' ' + c[1].toFixed(1)).join(' ');
+  const last = coords[coords.length - 1];
+  const up = values[values.length - 1] >= values[0];
+  const stroke = up ? 'var(--green)' : 'var(--accent)';
+  return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" width="' + w + '" height="' + h + '" aria-hidden="true">' +
+    '<path d="' + d + '" fill="none" stroke="' + stroke + '" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="2.4" fill="' + stroke + '"/>' +
+  '</svg>';
+}
+
+function valueOf(ind) {
+  if (ind.valueLabel) return ind.valueLabel;
+  if (ind.value == null) return null;
+  return fmtNum(ind.value);
+}
+
+function kpiCard(ind) {
+  const v = valueOf(ind);
+  const main = v != null ? v : (ind.yoy != null ? fmtYoy(ind.yoy) : '—');
+  const unit = v != null ? (ind.unit || '') : (ind.yoy != null ? '同比' : '');
+  const series = sparkline(ind.history, 132, 34, ind.trendBasis);
+  const seriesNote = series
+    ? '<span class="kpi__basis">' + (ind.trendBasis === 'yoy' ? '近 ' + sparkPoints(ind.history, 'yoy').slice(-12).length + ' 期同比增速' : '近 ' + sparkPoints(ind.history, 'value').slice(-12).length + ' 期数值') + '</span>'
+    : '';
+
+  return '<div class="kpi kpi--data">' +
+    '<div class="kpi__head"><span class="kpi__k">' + esc(ind.name) + '</span>' + levelChip(ind.sourceLevel) + '</div>' +
+    '<div class="kpi__v">' + esc(main) + '<span class="kpi__unit">' + esc(unit) + '</span></div>' +
+    '<div class="kpi__meta">' +
+      (v != null && ind.yoy != null ? '<span class="chip ' + yoyClass(ind.yoy) + '">同比 ' + esc(fmtYoy(ind.yoy)) + '</span>' : '') +
+      (ind.period ? '<span class="kpi__period">' + esc(ind.period) + '</span>' : '') +
+    '</div>' +
+    '<div class="kpi__foot">' +
+      (ind.publishedAt ? '<span>发布 ' + esc(fmtDate(ind.publishedAt)) + '</span>' : '') +
+      (ind.nextRelease ? '<span class="kpi__next">下次预计 ' + esc(fmtDate(ind.nextRelease)) + '</span>' : '') +
+      freshnessChip(ind) +
+    '</div>' +
+    (series ? '<div class="kpi__spark">' + series + seriesNote + '</div>' : '') +
+  '</div>';
+}
+
+function viewOverview() {
+  const s = DATA.stats;
+  const filmCards = DATA.indicators.filter((i) => i.group === 'film' && i.display === 'card');
+  const tourCards = DATA.indicators.filter((i) => i.group === 'tourism' && i.display === 'card');
+  const macroCards = DATA.indicators.filter((i) => i.group === 'macro' && i.display !== 'detail');
+
+  const keyPolicies = DATA.policies
+    .filter((p) => p.isKeyPolicy)
+    .slice(0, 6)
+    .map((p) => '<div class="prow">' +
+      '<div class="prow__date">' + fmtDate(p.publishedAt) + '</div>' +
+      '<div class="prow__main">' +
+        '<a href="' + esc(p.officialUrl) + '" target="_blank" rel="noopener noreferrer">' + esc(p.title) + '</a>' +
+        '<div class="small muted">' + esc(p.issuingAgency || '机构待补录') + '</div>' +
+      '</div>' +
+      '<div class="prow__meta">' + regionChip(p.regionCode) + '</div>' +
+    '</div>').join('');
+
+  return '<div class="page-head"><div><h1>概览</h1></div>' +
+    '<div class="spacer"></div><span class="small muted">页面构建于 ' + fmtTime(DATA.generatedAt) + '</span></div>' +
+
+    '<section class="section"><div class="section__head"><h2>文化产业背景 · 国家统计局</h2><div class="rule"></div>' +
+      '<span class="note">规模以上文化企业，累计口径 · ' + macroCards.length + ' 项</span></div>' +
+      '<div class="kpis kpis--compact">' + macroCards.map(kpiCard).join('') + '</div>' +
+      '<p class="hint" style="margin-top:8px">累计口径下不同期间长度不可直接比较，趋势线一律使用同比增速。文化产业总营收与内容创作生产均大于影视行业本身，只作背景参考。</p></section>' +
+
+    '<section class="section"><div class="section__head"><h2>文旅 / 体验型消费 · 外部大盘</h2><div class="rule"></div>' +
+      '<span class="note">假期与口径混合 · ' + tourCards.length + ' 项</span></div>' +
+      '<div class="kpis kpis--compact">' + tourCards.map(kpiCard).join('') + '</div></section>' +
+
+    '<section class="section"><div class="section__head"><h2>电影 / 院线 · 外部大盘</h2><div class="rule"></div>' +
+      '<span class="note">票务型消费 · ' + filmCards.length + ' 项</span></div>' +
+      '<div class="kpis kpis--compact">' + filmCards.map(kpiCard).join('') + '</div></section>' +
+
+    '<section class="section card pad"><div class="section__head" style="margin-bottom:12px">' +
+      '<h2>数据状态</h2><div class="rule"></div><a class="small" href="#/monitor" style="color:var(--accent)">查看全部指标 →</a></div>' +
+      '<div class="statline">' +
+        '<span><b>' + s.indicators + '</b> 项指标</span>' +
+        '<span><b>' + s.indicatorsOfficial + '</b> 项官方来源</span>' +
+        '<span><b>' + s.indicatorsMissing + '</b> 项未获取</span>' +
+        '<span><b>' + s.indicatorsStale + '</b> 项待更新</span>' +
+        '<span><b>' + s.totalPolicies + '</b> 条政策名录</span>' +
+        (DATA.heritage ? '<span><b>' + s.heritageWeekly + '</b> 期文博周报</span>' : '') +
+      '</div>' +
+      '<p class="hint" style="margin-top:10px">“待更新”表示官方发布已超过 60 天。混合频率下，不同指标的数据期不一致属正常，卡片已逐一标注。</p>' +
+    '</section>' +
+
+    '<section class="section card pad"><div class="section__head" style="margin-bottom:6px"><h2>重点政策动态</h2><div class="rule"></div>' +
+      '<a class="small" href="#/policies" style="color:var(--accent)">查看政策库 →</a></div>' +
+      (keyPolicies || '<p class="hint">暂无政策记录。</p>') + '</section>';
+}
+
+/* ---------- 政策库 ---------- */
+function filteredPolicies() {
+  const f = state.filters;
+  const q = f.q.trim().toLowerCase();
+  return DATA.policies
+    .filter((p) => (f.region ? p.regionCode === f.region : true))
+    .filter((p) => (f.topic ? (p.topicTags || []).includes(f.topic) : true))
+    .filter((p) => (f.type ? p.documentType === f.type : true))
+    .filter((p) => (f.keyOnly ? p.isKeyPolicy : true))
+    .filter((p) => {
+      if (!q) return true;
+      return [p.title, p.issuingAgency, p.documentNumber, p.summaryWhat]
+        .filter(Boolean).join(' ').toLowerCase().includes(q);
+    })
+    .sort((a, b) => {
+      if (a.isKeyPolicy !== b.isKeyPolicy) return a.isKeyPolicy ? -1 : 1;
+      const ap = a.publishedAt || '', bp = b.publishedAt || '';
+      return ap < bp ? 1 : ap > bp ? -1 : 0;
+    });
+}
+
+function viewPolicies() {
+  const f = state.filters;
+  const list = filteredPolicies();
+  const shown = list.slice(0, 60);
+  const opt = (value, label, current) =>
+    '<option value="' + esc(value) + '"' + (value === current ? ' selected' : '') + '>' + esc(label) + '</option>';
+
+  const rows = shown.map((p) => '<tr>' +
+    '<td class="title"><a href="' + esc(p.officialUrl) + '" target="_blank" rel="noopener noreferrer" title="打开官方原文">' +
+      (p.isKeyPolicy ? '<span class="chip chip--key" style="margin-right:6px">重点</span>' : '') + esc(p.title) + ' ↗</a>' +
+      '<div class="tags">' +
+      (p.topicTags || []).slice(0, 3).map((t) => '<span class="chip chip--topic">' + esc(TOPIC_LABELS[t] || t) + '</span>').join('') +
+      (p.toolTags || []).slice(0, 2).map((t) => '<span class="chip chip--topic">' + esc(TOOL_LABELS[t] || t) + '</span>').join('') +
+      '</div></td>' +
+    '<td>' + regionChip(p.regionCode) + '</td>' +
+    '<td class="small">' + esc(p.issuingAgency || '未提供') + '<div class="muted mono">' + esc(p.documentNumber || '') + '</div></td>' +
+    '<td class="small">' + fmtDate(p.publishedAt) + '</td>' +
+    '<td class="small">' + esc(TYPE_LABELS[p.documentType] || p.documentType || '—') + '</td>' +
+    '<td class="small">' + esc(p.sourceName || '') + '</td>' +
+  '</tr>').join('');
+
+  return '<div class="page-head"><div><h1>政策库</h1>' +
+    '<p>文化产业政策名录。点击标题直接打开官方原文；本期不设二级页面。</p></div>' +
+    '<div class="spacer"></div><span class="small muted">共 ' + DATA.policies.length + ' 条</span></div>' +
+
+    '<div class="toolbar">' +
+      '<label class="search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>' +
+      '<span class="sr-only">搜索</span><input id="qInput" type="search" placeholder="搜索标题、机构或文号" value="' + esc(f.q) + '"></label>' +
+      '<select class="sel" id="fRegion">' + opt('', '全部地区', f.region) +
+        REGIONS.map((r) => opt(r.code, r.label, f.region)).join('') + '</select>' +
+      '<select class="sel" id="fTopic">' + opt('', '全部主题', f.topic) +
+        Object.keys(TOPIC_LABELS).map((t) => opt(t, TOPIC_LABELS[t], f.topic)).join('') + '</select>' +
+      '<select class="sel" id="fType">' + opt('', '全部类型', f.type) +
+        Object.keys(TYPE_LABELS).map((t) => opt(t, TYPE_LABELS[t], f.type)).join('') + '</select>' +
+      '<label class="check"><input type="checkbox" id="fKeyOnly"' + (f.keyOnly ? ' checked' : '') + '> 仅看重点政策</label>' +
+      '<span class="count">共 <b>' + list.length + '</b> 条</span>' +
+      '<button class="btn btn--ghost btn--sm" type="button" id="resetFilters">重置</button>' +
+      '<button class="btn btn--sm" type="button" id="exportCsv">导出 CSV</button>' +
+    '</div>' +
+
+    (shown.length ? '<div class="tbl-wrap"><table><thead><tr>' +
+      '<th>标题（点击打开原文）</th><th>区域</th><th>发布机构 / 文号</th><th>发布日期</th><th>类型</th><th>来源栏目</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      (list.length > shown.length ? '<p class="hint" style="margin-top:10px">本期展示前 ' + shown.length + ' 条；可用筛选缩小范围。共 ' + list.length + ' 条符合条件。</p>' : '')
+      : '<div class="state"><h3>没有匹配的政策记录</h3><p>当前筛选条件下没有结果。这不表示该地区或主题没有相关政策。</p>' +
+        '<button class="btn" type="button" id="resetFilters2">清除筛选</button></div>');
+}
+
+/* ---------- 产业监测 ---------- */
+const SOURCE_REGISTRY = [
+  { indicator: '国内出游人次 / 总花费', org: '文化和旅游部', form: '官网正式发布', level: '官方' },
+  { indicator: '跨区域人员流动量', org: '交通运输部', form: '最终发布（非预计值）', level: '官方' },
+  { indicator: '铁路 / 民航客运量', org: '国铁集团 / 交通运输部', form: '最终发布', level: '官方' },
+  { indicator: '出入境', org: '国家移民管理局', form: '官网正式发布', level: '官方' },
+  { indicator: '票房 / 观影人次 / 银幕数', org: '国家电影局', form: '官网正式发布', level: '官方' },
+  { indicator: '文化及相关产业营收', org: '国家统计局', form: '季度发布', level: '官方' },
+  { indicator: '增值税发票销售收入', org: '国家税务总局', form: '官网正式发布', level: '官方' },
+  { indicator: '人均花费', org: '（测算）', form: '总花费 ÷ 总人次', level: '测算' },
+  { indicator: '单银幕产出 / 非票收入占比', org: '媒体 / 券商', form: '测算区间', level: '非官方' }
+];
+
+/* 重点数据提示：每个指标的「下一步该看什么」与「可能原因」，只作核查方向，不作因果结论 */
+const INSIGHT_META = {
+  CN_BOX_HOLIDAY: {
+    focus: ['全国平均票价', '全国档期观影人次', '全国银幕总数'],
+    causes: ['档期天数差异：2025 年 8 天、2026 年 7 天，总量不可直接比较，需看日均可比口径', '平均票价与观众价格敏感度', '重点影片供给与上映节奏', '演出、文旅等替代性文化消费的分流']
+  },
+  CN_BOX_SUMMER: {
+    focus: ['全国档期观影人次', '全国平均票价', '全国暑期档票房'],
+    causes: ['档期片单结构与头部影片集中度', '放映场次扩容是否被单场人次稀释', '票价与促销策略']
+  },
+  CN_ADMISSIONS: {
+    focus: ['全国平均票价', '全国银幕总数', '全国单银幕年产出', '全国档期电影票房'],
+    causes: ['档期天数差异：总量下降可能来自天数减少，需先看日均可比口径', '平均票价对观影频次的影响', '影片供给质量与观众口碑', '线上娱乐与其他线下文化消费的替代']
+  },
+  CN_AVG_TICKET: {
+    focus: ['全国档期观影人次', '全国票房', '全国银幕总数'],
+    causes: ['影院定价策略与服务费结构', '票补与促销力度', '高票价城市与低票价城市的场次结构']
+  },
+  CN_SCREENS: {
+    focus: ['全国单银幕年产出', '全国票房', '全国观影人次'],
+    causes: ['银幕增速与票房增速的剪刀差', '新建影院的城市层级分布', '单银幕产出是否被摊薄']
+  },
+  CN_TRAVEL_TRIPS: {
+    focus: ['全国国内出游总花费', '全国文旅人均花费', '全国大型演出场次'],
+    causes: ['假期天数差异，需先折算日均口径', '出行半径与目的地结构变化', '演出、赛事等体验型消费的替代或叠加']
+  },
+  CN_TRAVEL_SPEND: {
+    focus: ['全国国内出游人次', '全国文旅人均花费'],
+    causes: ['人均花费变化是量还是价', '客群结构（长途 / 周边）变化', '住宿与交通价格的传导']
+  },
+  CN_TRAVEL_PER_CAPITA: {
+    focus: ['全国国内出游人次', '全国国内出游总花费'],
+    causes: ['总花费与总人次的相对增速差异', '客单价与消费频次拆分', '短途高频出游占比上升']
+  },
+  CN_NIGHT_DISTRICT_TRAFFIC: {
+    focus: ['全国国内出游人次', '全国大型演出场次'],
+    causes: ['夜间文旅集聚区的统计范围', '假期夜间活动供给']
+  },
+  CN_MAJOR_SHOWS: {
+    focus: ['全国国内出游人次', '旅游游览和娱乐服务销售收入'],
+    causes: ['大型演出审批与场次供给', '演唱会、音乐节的跨城观演带动']
+  },
+  CN_CULTURE_REV: {
+    focus: ['内容创作生产营业收入', '文化新业态营业收入', '规模以上文化企业利润总额'],
+    causes: ['规模以上口径的企业样本变化', '新业态对传统门类的替代', '累计口径下期间长度不同']
+  },
+  CN_CONTENT_PROD_REV: {
+    focus: ['规模以上文化及相关产业企业营业收入', '文化新业态营业收入'],
+    causes: ['内容创作生产大于影视行业本身，不能当作影视营收', '影视内容供给与发行节奏']
+  },
+  CN_NEW_FORMAT_REV: {
+    focus: ['规模以上文化及相关产业企业营业收入', '内容创作生产营业收入'],
+    causes: ['数字内容与线上平台的增长贡献', '新业态口径包含 16 个行业小类，需拆分看']
+  }
+};
+
+/* 变动幅度达到该阈值才进入重点提示 */
+const INSIGHT_THRESHOLD = 5;
+
+function insightOf(ind) {
+  const meta = INSIGHT_META[ind.code] || {};
+  return {
+    focus: meta.focus || [],
+    causes: meta.causes || ['该指标缺少配套的关联指标，建议先补充同口径数据再判断']
+  };
+}
+
+function buildInsights() {
+  const moved = DATA.indicators
+    .filter((i) => typeof i.yoy === 'number' && isFinite(i.yoy) && Math.abs(i.yoy) >= INSIGHT_THRESHOLD && i.dataStatus !== 'missing')
+    .sort((a, b) => Math.abs(b.yoy) - Math.abs(a.yoy))
+    .slice(0, 4);
+
+  if (!moved.length) {
+    return '<p class="hint">本期没有单项同比变动超过 ' + INSIGHT_THRESHOLD + '% 的指标，暂不生成重点提示。</p>';
+  }
+
+  return '<div class="insight">' + moved.map((ind) => {
+    const meta = insightOf(ind);
+    const up = ind.yoy > 0;
+    const word = up ? '增长' : '下降';
+    return '<div class="insight__item insight--' + (up ? 'up' : 'down') + '">' +
+      '<div class="insight__bar"></div>' +
+      '<div class="insight__body">' +
+        '<div class="insight__fact">' + esc(ind.name) + ' ' + word + '<b>' + esc(fmtNum(Math.abs(ind.yoy))) + '%</b>' +
+          '（' + esc(ind.period || '数据期未标注') + '，' + esc(ind.sourceName || '来源待补录') + '）' +
+          (up ? '，需确认增长是否可持续' : '，需重点核查原因') + '。</div>' +
+        (meta.focus.length ? '<div class="insight__row"><span class="insight__label">建议同时关注</span>' +
+          meta.focus.map((f) => '<span class="chip chip--wrap">' + esc(f) + '</span>').join('') + '</div>' : '') +
+        '<div class="insight__cause"><em>可能原因（待逐条验证）</em>：' +
+          meta.causes.map(esc).join('；') + '。</div>' +
+      '</div>' +
+    '</div>';
+  }).join('') + '</div>';
+}
+
+function buildInsightBoundary() {
+  const missing = DATA.indicators.filter((i) => i.dataStatus === 'missing');
+  const nonOfficial = DATA.indicators.filter((i) => i.sourceLevel && i.sourceLevel !== '官方');
+  return '<div class="insight__boundary hint">' +
+    '以上为观察到的变化与建议核查方向，不构成因果结论；政策与产业表现之间的关联需要单独的研究设计。' +
+    (missing.length ? '<br>另有 ' + missing.length + ' 项指标本期未获取（' +
+      missing.slice(0, 4).map((m) => esc(m.name)).join('、') + (missing.length > 4 ? ' 等' : '') +
+      '），结论前需先补齐。' : '') +
+    (nonOfficial.length ? '<br>' + nonOfficial.length + ' 项为测算或非官方来源，已单独标注，不与官方指标合并计算。' : '') +
+  '</div>';
+}
+
+
+function indicatorRows(list, emptyText) {
+  if (!list.length) {
+    return '<tr><td colspan="9" class="muted small" style="padding:22px 12px">' + esc(emptyText || '该分组本期无指标') + '</td></tr>';
+  }
+  return list.map((i) => {
+    const v = valueOf(i);
+    const series = sparkline(i.history, 90, 26, i.trendBasis);
+    const basisPts = sparkPoints(i.history, i.trendBasis).slice(-12);
+    const periodRow = i.trendBasis === 'none' && basisPts.length >= 2
+      ? '<tr class="sparkrow"><td colspan="9"><span class="small muted">已收录 ' + basisPts.length + ' 期（' +
+        esc(basisPts.map((p) => p.period).join(' · ')) + '）；各期口径不同，不做趋势连线</span></td></tr>'
+      : '';
+    return '<tr>' +
+      '<td><div style="font-weight:600">' + esc(i.name) + '</div>' +
+        '<div class="small muted mono">' + esc(i.code) + '</div></td>' +
+      '<td class="num">' + (v == null ? (i.yoy != null ? '<span class="chip ' + yoyClass(i.yoy) + '">' + esc(fmtYoy(i.yoy)) + '</span>' : '<span class="chip chip--draft">未获取</span>') : esc(v)) + '</td>' +
+      '<td class="small">' + esc(i.unit || '') + '</td>' +
+      '<td class="small">' + esc(i.period || '—') + '</td>' +
+      '<td class="num">' + (i.yoy == null ? '—' : '<span class="chip ' + yoyClass(i.yoy) + '">' + esc(fmtYoy(i.yoy)) + '</span>') + '</td>' +
+      '<td class="small" style="max-width:300px">' + esc(i.caliber || '') +
+        (i.formula ? '<div class="muted mono">＝ ' + esc(i.formula) + '</div>' : '') +
+        (i.comparison ? '<div class="muted">对比：' + esc(i.comparison) + '</div>' : '') + '</td>' +
+      '<td class="small">' + esc(i.sourceName) + '</td>' +
+      '<td class="small">' + (i.publishedAt ? fmtDate(i.publishedAt) : '—') +
+        (i.nextRelease ? '<div class="muted">下次 ' + fmtDate(i.nextRelease) + '</div>' : '') + '</td>' +
+      '<td>' + levelChip(i.sourceLevel) + '</td>' +
+      '</tr>' +
+      (series ? '<tr class="sparkrow"><td colspan="9"><span class="small muted">近 ' + basisPts.length + ' 期' + (i.trendBasis === 'yoy' ? '同比增速' : '数值') + '（' + (basisPts.length > 6 ? '… ' : '') + esc(basisPts.slice(-6).map((p) => p.period).join(' · ')) + '）</span>' + series + '</td></tr>' : periodRow);
+  }).join('');
+}
+
+/* ---------- 文博周报 ---------- */
+function heritageWeeklyBlock(h) {
+  if (!h.weekly.length) {
+    return '<p class="hint">尚未采集到周报。运行 <span class="mono">npm run collect:heritage</span> 后重新构建。</p>';
+  }
+  const latest = h.weekly[0];
+  const older = h.weekly.slice(1);
+
+  const items = latest.items.map((i) =>
+    '<div class="digest__item">' +
+      '<div class="digest__t">' + (i.region ? '<span class="digest__r">' + esc(i.region) + '</span>' : '') + esc(i.title) + '</div>' +
+      (i.summary ? '<div class="digest__s">' + esc(i.summary) + '</div>' : '') +
+    '</div>').join('');
+
+  const archive = older.length
+    ? '<details class="archive"><summary>往期 ' + older.length + ' 期（共 ' + h.weeklyTotal + ' 期已归档）</summary><ul>' +
+      older.map((w) => '<li>' + esc(w.period || '期间未知') + ' · ' + esc(String(w.publishedAt || '')) +
+        ' · ' + w.itemCount + ' 条 · <a href="' + esc(w.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">原文</a></li>').join('') +
+      '</ul></details>'
+    : '';
+
+  return '<div class="card pad">' +
+    '<div class="section__head" style="margin-bottom:10px">' +
+      '<h3 style="margin:0;font-family:var(--serif);font-size:15px">最新一期 · ' + esc(latest.period || '期间未知') + '</h3>' +
+      '<div class="rule"></div>' +
+      '<span class="note">' + esc(fmtDate(latest.publishedAt)) + ' · ' + latest.itemCount + ' 条要点 · ' +
+      '<a href="' + esc(latest.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">官方原文</a></span>' +
+    '</div>' +
+    '<div class="digest">' + items + '</div>' + archive +
+  '</div>';
+}
+
+function heritageTrafficBlock(h) {
+  const rows = h.traffic
+    .slice()
+    .sort((a, b) => String(b.publishedAt || '').localeCompare(String(a.publishedAt || '')))
+    .map((t) => '<tr>' +
+      '<td class="small">' + esc(t.period || '期间未标注') + '</td>' +
+      '<td class="num">' + esc(fmtNum(t.value)) + ' <span class="small muted">' + esc(t.unit) + '</span></td>' +
+      '<td class="num">' + (t.yoy == null ? '—' : '<span class="chip ' + yoyClass(t.yoy) + '">' + esc(fmtYoy(t.yoy)) + '</span>') + '</td>' +
+      '<td class="num">' + (t.dailyYoy == null ? '—' : '<span class="chip ' + yoyClass(t.dailyYoy) + '">' + esc(fmtYoy(t.dailyYoy)) + '</span>') + '</td>' +
+      '<td class="small">' + (t.publishedAt ? fmtDate(t.publishedAt) : '—') + '</td>' +
+      '</tr>').join('');
+
+  return '<div class="card pad"><div class="section__head" style="margin-bottom:8px">' +
+    '<h3 style="margin:0;font-family:var(--serif);font-size:15px">博物馆客流</h3><div class="rule"></div>' +
+    '<span class="note">假期 / 暑期口径 · 官方新闻稿</span></div>' +
+    (h.traffic.length
+      ? '<div class="tbl-wrap"><table><thead><tr><th>数据期</th><th class="num">接待观众</th><th class="num">同比</th><th class="num">日均同比</th><th>发布</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '<p class="hint" style="margin-top:8px">各假期天数不同，总量不可直接比较；只有官方同时给出日均口径时才可跨年对照。</p>'
+      : '<p class="hint">本期未发现假期客流发布。</p>') +
+  '</div>';
+}
+
+function heritageAnnualBlock(h) {
+  const rows = h.annual.map((a) => '<tr>' +
+    '<td class="small">' + a.year + ' 年度</td>' +
+    '<td class="num">' + (a.museums == null ? '—' : esc(fmtNum(a.museums))) + '</td>' +
+    '<td class="num">' + (a.visits == null ? '—' : esc(fmtNum(a.visits)) + ' <span class="small muted">亿人次</span>') + '</td>' +
+    '<td class="num">' + (a.visitsYoy == null ? '—' : '<span class="chip ' + yoyClass(a.visitsYoy) + '">' + esc(fmtYoy(a.visitsYoy)) + '</span>') + '</td>' +
+    '<td class="num">' + (a.exhibitions == null ? '—' : esc(fmtNum(a.exhibitions)) + ' <span class="small muted">万个</span>') + '</td>' +
+    '<td class="small">' + (a.publishedAt ? fmtDate(a.publishedAt) : '—') + '</td>' +
+    '</tr>').join('');
+
+  return '<div class="card pad"><div class="section__head" style="margin-bottom:8px">' +
+    '<h3 style="margin:0;font-family:var(--serif);font-size:15px">年度底数</h3><div class="rule"></div>' +
+    '<span class="note">文旅部统计公报 · 年末口径</span></div>' +
+    (h.annual.length
+      ? '<div class="tbl-wrap"><table><thead><tr><th>年度</th><th class="num">备案博物馆</th><th class="num">文物机构接待观众</th><th class="num">同比</th><th class="num">陈列展览</th><th>发布</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '<p class="hint" style="margin-top:8px">「—」表示该年度公报未公布该项，不做补算。博物馆数为年末登记备案口径。</p>'
+      : '<p class="hint">本期未采集到统计公报。</p>') +
+  '</div>';
+}
+
+function heritageExhibitionBlock(h) {
+  const latest = h.exhibitions[0];
+  if (!latest) return '';
+
+  const rows = latest.items.map((i) => '<tr>' +
+    '<td class="small" style="font-weight:600">' + esc(i.museum || '—') + '</td>' +
+    '<td class="small">' + esc(i.exhibition) +
+      (i.intro ? '<div class="exh__intro">' + esc(i.intro) + '</div>' : '') + '</td>' +
+    '<td class="small">' + esc(i.time || '—') + '</td>' +
+    '</tr>').join('');
+
+  const older = h.exhibitions.slice(1);
+
+  return '<div class="card pad" style="margin-top:14px"><div class="section__head" style="margin-bottom:8px">' +
+    '<h3 style="margin:0;font-family:var(--serif);font-size:15px">展讯速览 · ' + esc(String(latest.issue || '').slice(0, 10)) + '</h3>' +
+    '<div class="rule"></div><span class="note">' + latest.itemCount + ' 个展览 · ' +
+    '<a href="' + esc(latest.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">官方原文</a></span></div>' +
+    '<div class="tbl-wrap"><table><thead><tr><th style="min-width:180px">博物馆</th><th style="min-width:300px">展览</th><th>时间</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    (older.length ? '<details class="archive"><summary>往期展讯 ' + older.length + ' 期（共 ' + h.exhibitionsTotal + ' 期已归档）</summary><ul>' +
+      older.map((e) => '<li>' + esc(String(e.issue || '').slice(0, 10)) + ' · ' + e.itemCount + ' 个展览 · ' +
+        '<a href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">原文</a></li>').join('') +
+      '</ul></details>' : '') +
+  '</div>';
+}
+
+function viewHeritage() {
+  const h = DATA.heritage;
+  if (!h) return '';
+  return '<section class="section"><div class="section__head"><h2>1.3 文博周报 · 博物馆 / 文创</h2><div class="rule"></div>' +
+      '<span class="note">国家文物局每周摘编 + 客流 + 年度底数</span></div>' +
+    heritageWeeklyBlock(h) +
+    '<div style="margin-top:14px">' + heritageTrafficBlock(h) + '</div>' +
+    '<div style="margin-top:14px">' + heritageAnnualBlock(h) + '</div>' +
+    heritageExhibitionBlock(h) +
+  '</section>';
+}
+
+function viewMonitor() {
+  const items = DATA.indicators;
+  const current = state.monitorRegion;
+  const currentItems = items.filter((i) => i.regionCode === current);
+  const film = currentItems.filter((i) => i.group === 'film');
+  const tourism = currentItems.filter((i) => i.group === 'tourism');
+  const macro = currentItems.filter((i) => i.group === 'macro');
+  const region = currentItems.filter((i) => i.group === 'region');
+  const missing = items.filter((i) => i.dataStatus === 'missing');
+  const needSeries = items.filter((i) => sparkPoints(i.history, i.trendBasis).length < 3);
+
+  const thead = '<thead><tr><th style="min-width:200px">指标</th><th class="num">最新值</th><th>单位</th>' +
+    '<th style="min-width:110px">数据期</th><th class="num">同比</th><th style="min-width:240px">口径 / 计算方式</th>' +
+    '<th>来源</th><th>发布 / 下次</th><th>等级</th></tr></thead>';
+
+  const tabs = REGIONS.map((r) => {
+    const n = items.filter((i) => i.regionCode === r.code).length;
+    const on = r.code === current;
+    return '<button class="btn btn--sm" data-monitor-region="' + r.code + '" style="' +
+      (on ? 'background:var(--ink);color:#FFFDF8;border-color:var(--ink)' : '') + '">' + r.label +
+      ' <span style="opacity:.65">' + n + '</span></button>';
+  }).join('');
+
+  const section = (title, note, rows, empty) =>
+    '<section class="section"><div class="section__head"><h2>' + title + '</h2><div class="rule"></div>' +
+    '<span class="note">' + note + '</span></div>' +
+    '<div class="tbl-wrap"><table>' + thead + '<tbody>' + indicatorRows(rows, empty) + '</tbody></table></div></section>';
+
+  return '<div class="page-head"><div><h1>影视文化产业监测</h1>' +
+    '<p>混合频率：周报、档期、月度、季度、年度并存，每项标注数据期、发布日期与预计下次发布。测算值标注公式，未获取数据留空。</p></div></div>' +
+
+    '<div class="toolbar" style="margin-top:14px">' + tabs +
+    '<span class="count">当前地区 ' + currentItems.length + ' 项</span></div>' +
+
+    (current === 'national' ? '<section class="section card pad"><div class="section__head" style="margin-bottom:10px">' +
+      '<h2>重点数据提示</h2><div class="rule"></div><span class="note">全国口径 · 自动生成，仅列观察与核查方向</span></div>' +
+      buildInsights() + buildInsightBoundary() + '</section>' : '') +
+
+    (current === 'national' ? section('1.1 文化产业背景', '统计局季度 / 年度', macro) : '') +
+    (current === 'national' ? section('1.2 文旅 / 体验型消费类', '假期 / 年度', tourism) : '') +
+    (current === 'national' ? viewHeritage() : '') +
+    (current === 'national' ? section('1.4 电影 / 院线类（票务型消费）', '档期 / 年度', film) : '') +
+    (current !== 'national' ? section('区域对照', '同口径数据取得后填入', region.concat(macro), '该地区本期没有录入指标。') : '') +
+
+    '<section class="section card pad"><div class="section__head" style="margin-bottom:10px">' +
+      '<h2>数据来源与优先级</h2><div class="rule"></div><span class="note">用于区分官方发布与测算值</span></div>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>指标</th><th>来源机构</th><th>发布形式</th><th>等级</th></tr></thead><tbody>' +
+      SOURCE_REGISTRY.map((r) => '<tr><td class="small">' + esc(r.indicator) + '</td><td class="small">' + esc(r.org) + '</td>' +
+        '<td class="small">' + esc(r.form) + '</td><td>' + levelChip(r.level) + '</td></tr>').join('') +
+      '</tbody></table></div></section>' +
+
+    '<section class="section card pad"><div class="section__head" style="margin-bottom:8px">' +
+      '<h2>数据缺口</h2><div class="rule"></div><span class="note">共 ' + missing.length + ' 项</span></div>' +
+      '<p class="hint">以下指标本期未取得同口径公开数据，页面保留空值并列出获取途径，不使用估算值填充。</p>' +
+      '<div class="tags" style="margin-top:10px">' +
+      (missing.map((m) => '<span class="chip chip--draft chip--wrap">' + esc(m.name) + ' · ' + esc(m.caliber || '待补录') + '</span>').join('') || '<span class="small muted">无</span>') +
+      '</div>' +
+      (needSeries.length ? '<p class="hint" style="margin-top:14px"><b>趋势序列待补齐</b>（需至少 3 期才绘制趋势线，当前 ' + needSeries.length + ' 项）：' +
+        needSeries.slice(0, 8).map((m) => esc(m.name)).join('、') + (needSeries.length > 8 ? ' 等' : '') + '</p>' : '') +
+    '</section>';
+}
+
+/* ---------- 交互 ---------- */
+let timer = null;
+function bind() {
+  const q = $('#qInput');
+  if (q) {
+    q.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        state.filters.q = q.value;
+        render();
+        const el = $('#qInput');
+        if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+      }, 240);
+    });
+  }
+  const bindSel = (id, key) => {
+    const el = $('#' + id);
+    if (el) el.addEventListener('change', () => { state.filters[key] = el.value; render(); });
+  };
+  bindSel('fRegion', 'region');
+  bindSel('fTopic', 'topic');
+  bindSel('fType', 'type');
+
+  const k = $('#fKeyOnly');
+  if (k) k.addEventListener('change', () => { state.filters.keyOnly = k.checked; render(); });
+
+  ['#resetFilters', '#resetFilters2'].forEach((sel) => {
+    const el = $(sel);
+    if (el) el.addEventListener('click', () => {
+      state.filters = { q: '', region: '', topic: '', type: '', keyOnly: false };
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-monitor-region]').forEach((btn) => {
+    btn.addEventListener('click', () => { state.monitorRegion = btn.dataset.monitorRegion; render(); });
+  });
+
+  const exp = $('#exportCsv');
+  if (exp) exp.addEventListener('click', () => {
+    const list = filteredPolicies();
+    const head = ['标题', '区域', '发布机构', '文号', '发布日期', '类型', '重点政策', '原文链接'];
+    const rows = list.map((p) => [
+      p.title, regionOf(p.regionCode).label, p.issuingAgency || '', p.documentNumber || '',
+      p.publishedAt || '', TYPE_LABELS[p.documentType] || p.documentType, p.isKeyPolicy ? '是' : '否', p.officialUrl || ''
+    ]);
+    const csv = [head, ...rows].map((r) => r.map((c) => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '文化产业政策名录-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+}
+
+$('#dataStamp').innerHTML = '数据更新<br>' + fmtTime(DATA.generatedAt);
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
