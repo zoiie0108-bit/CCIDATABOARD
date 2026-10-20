@@ -1,0 +1,393 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "run-1792464855314",
+      "startedAt": "2026-10-20T02:54:15.308Z",
+      "finishedAt": "2026-10-20T02:54:24.160Z",
+      "durationMs": 8852,
+      "trigger": "manual",
+      "status": "success",
+      "sources": [
+        {
+          "sourceId": "cn-gov",
+          "name": "中国政府网 · 政策",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 1,
+          "newCount": 0,
+          "duplicateCount": 1,
+          "errorCount": 0,
+          "durationMs": 468,
+          "error": null
+        },
+        {
+          "sourceId": "cn-mct",
+          "name": "文化和旅游部 · 政策法规",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 13,
+          "newCount": 0,
+          "duplicateCount": 13,
+          "errorCount": 0,
+          "durationMs": 480,
+          "error": null
+        },
+        {
+          "sourceId": "zj-gov",
+          "name": "浙江省人民政府 · 法规文件",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 2,
+          "newCount": 0,
+          "duplicateCount": 2,
+          "errorCount": 0,
+          "durationMs": 717,
+          "error": null
+        },
+        {
+          "sourceId": "bj-gov",
+          "name": "首都之窗 · 政策文件",
+          "regionCode": "beijing",
+          "status": "ok",
+          "fetched": 80,
+          "newCount": 0,
+          "duplicateCount": 60,
+          "errorCount": 0,
+          "durationMs": 5344,
+          "error": null
+        },
+        {
+          "sourceId": "zj-ct",
+          "name": "浙江省文化广电和旅游厅 · 通知公告",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 3,
+          "newCount": 0,
+          "duplicateCount": 3,
+          "errorCount": 0,
+          "durationMs": 594,
+          "error": null
+        },
+        {
+          "sourceId": "sh-gov",
+          "name": "上海市文化和旅游局 · 政策法规",
+          "regionCode": "shanghai",
+          "status": "ok",
+          "fetched": 19,
+          "newCount": 0,
+          "duplicateCount": 19,
+          "errorCount": 0,
+          "durationMs": 418,
+          "error": null
+        },
+        {
+          "sourceId": "hz-gov",
+          "name": "杭州市文化广电旅游局 · 政策与公告",
+          "regionCode": "hangzhou",
+          "status": "ok",
+          "fetched": 7,
+          "newCount": 0,
+          "duplicateCount": 7,
+          "errorCount": 0,
+          "durationMs": 802,
+          "error": null
+        }
+      ],
+      "totals": {
+        "newCount": 0,
+        "duplicateCount": 105,
+        "errorCount": 0,
+        "fetched": 125
+      }
+    },
+    {
+      "id": "run-1792401273967",
+      "startedAt": "2026-10-19T09:14:33.960Z",
+      "finishedAt": "2026-10-19T09:14:45.325Z",
+      "durationMs": 11364,
+      "trigger": "manual",
+      "status": "success",
+      "sources": [
+        {
+          "sourceId": "cn-gov",
+          "name": "中国政府网 · 政策",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 1,
+          "newCount": 0,
+          "duplicateCount": 1,
+          "errorCount": 0,
+          "durationMs": 456,
+          "error": null
+        },
+        {
+          "sourceId": "cn-mct",
+          "name": "文化和旅游部 · 政策法规",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 13,
+          "newCount": 0,
+          "duplicateCount": 13,
+          "errorCount": 0,
+          "durationMs": 483,
+          "error": null
+        },
+        {
+          "sourceId": "zj-gov",
+          "name": "浙江省人民政府 · 法规文件",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 2,
+          "newCount": 0,
+          "duplicateCount": 2,
+          "errorCount": 0,
+          "durationMs": 324,
+          "error": null
+        },
+        {
+          "sourceId": "bj-gov",
+          "name": "首都之窗 · 政策文件",
+          "regionCode": "beijing",
+          "status": "ok",
+          "fetched": 80,
+          "newCount": 0,
+          "duplicateCount": 60,
+          "errorCount": 0,
+          "durationMs": 6235,
+          "error": null
+        },
+        {
+          "sourceId": "zj-ct",
+          "name": "浙江省文化广电和旅游厅 · 通知公告",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 3,
+          "newCount": 3,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 2702,
+          "error": null
+        },
+        {
+          "sourceId": "sh-gov",
+          "name": "上海市文化和旅游局 · 政策法规",
+          "regionCode": "shanghai",
+          "status": "ok",
+          "fetched": 19,
+          "newCount": 0,
+          "duplicateCount": 19,
+          "errorCount": 0,
+          "durationMs": 353,
+          "error": null
+        },
+        {
+          "sourceId": "hz-gov",
+          "name": "杭州市文化广电旅游局 · 政策与公告",
+          "regionCode": "hangzhou",
+          "status": "ok",
+          "fetched": 7,
+          "newCount": 0,
+          "duplicateCount": 7,
+          "errorCount": 0,
+          "durationMs": 784,
+          "error": null
+        }
+      ],
+      "totals": {
+        "newCount": 3,
+        "duplicateCount": 102,
+        "errorCount": 0,
+        "fetched": 125
+      }
+    },
+    {
+      "id": "run-1792401244512",
+      "startedAt": "2026-10-19T09:14:04.507Z",
+      "finishedAt": "2026-10-19T09:14:12.645Z",
+      "durationMs": 8138,
+      "trigger": "manual",
+      "status": "success",
+      "sources": [
+        {
+          "sourceId": "cn-gov",
+          "name": "中国政府网 · 政策",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 1,
+          "newCount": 0,
+          "duplicateCount": 1,
+          "errorCount": 0,
+          "durationMs": 511,
+          "error": null
+        },
+        {
+          "sourceId": "cn-mct",
+          "name": "文化和旅游部 · 政策法规",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 13,
+          "newCount": 0,
+          "duplicateCount": 13,
+          "errorCount": 0,
+          "durationMs": 445,
+          "error": null
+        },
+        {
+          "sourceId": "zj-gov",
+          "name": "浙江省人民政府 · 法规文件",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 2,
+          "newCount": 0,
+          "duplicateCount": 2,
+          "errorCount": 0,
+          "durationMs": 357,
+          "error": null
+        },
+        {
+          "sourceId": "bj-gov",
+          "name": "首都之窗 · 政策文件",
+          "regionCode": "beijing",
+          "status": "ok",
+          "fetched": 80,
+          "newCount": 0,
+          "duplicateCount": 60,
+          "errorCount": 0,
+          "durationMs": 5220,
+          "error": null
+        },
+        {
+          "sourceId": "zj-ct",
+          "name": "浙江省文化广电和旅游厅 · 通知公告",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 0,
+          "newCount": 0,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 552,
+          "error": null
+        },
+        {
+          "sourceId": "sh-gov",
+          "name": "上海市文化和旅游局 · 政策法规",
+          "regionCode": "shanghai",
+          "status": "ok",
+          "fetched": 19,
+          "newCount": 0,
+          "duplicateCount": 19,
+          "errorCount": 0,
+          "durationMs": 366,
+          "error": null
+        },
+        {
+          "sourceId": "hz-gov",
+          "name": "杭州市文化广电旅游局 · 政策与公告",
+          "regionCode": "hangzhou",
+          "status": "ok",
+          "fetched": 7,
+          "newCount": 0,
+          "duplicateCount": 7,
+          "errorCount": 0,
+          "durationMs": 672,
+          "error": null
+        }
+      ],
+      "totals": {
+        "newCount": 0,
+        "duplicateCount": 102,
+        "errorCount": 0,
+        "fetched": 122
+      }
+    },
+    {
+      "id": "run-1792400969241",
+      "startedAt": "2026-10-19T09:09:29.238Z",
+      "finishedAt": "2026-10-19T09:10:52.065Z",
+      "durationMs": 82827,
+      "trigger": "manual",
+      "status": "success",
+      "sources": [
+        {
+          "sourceId": "cn-gov",
+          "name": "中国政府网 · 政策",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 1,
+          "newCount": 1,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 1154,
+          "error": null
+        },
+        {
+          "sourceId": "cn-mct",
+          "name": "文化和旅游部 · 政策法规",
+          "regionCode": "national",
+          "status": "ok",
+          "fetched": 13,
+          "newCount": 13,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 10921,
+          "error": null
+        },
+        {
+          "sourceId": "zj-gov",
+          "name": "浙江省人民政府 · 法规文件",
+          "regionCode": "zhejiang",
+          "status": "ok",
+          "fetched": 2,
+          "newCount": 2,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 2591,
+          "error": null
+        },
+        {
+          "sourceId": "bj-gov",
+          "name": "首都之窗 · 政策文件",
+          "regionCode": "beijing",
+          "status": "ok",
+          "fetched": 80,
+          "newCount": 56,
+          "duplicateCount": 4,
+          "errorCount": 0,
+          "durationMs": 46095,
+          "error": null
+        },
+        {
+          "sourceId": "sh-gov",
+          "name": "上海市文化和旅游局 · 政策法规",
+          "regionCode": "shanghai",
+          "status": "ok",
+          "fetched": 19,
+          "newCount": 19,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 15879,
+          "error": null
+        },
+        {
+          "sourceId": "hz-gov",
+          "name": "杭州市文化广电旅游局 · 政策与公告",
+          "regionCode": "hangzhou",
+          "status": "ok",
+          "fetched": 7,
+          "newCount": 7,
+          "duplicateCount": 0,
+          "errorCount": 0,
+          "durationMs": 6154,
+          "error": null
+        }
+      ],
+      "totals": {
+        "newCount": 98,
+        "duplicateCount": 4,
+        "errorCount": 0,
+        "fetched": 122
+      }
+    }
+  ]
+}

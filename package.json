@@ -1,0 +1,19 @@
+{
+  "name": "culture-observatory",
+  "version": "1.2.0",
+  "private": true,
+  "description": "文化产业观察站：政策名录 + 影视文化产业监测（静态单文件输出）",
+  "scripts": {
+    "build": "node server/build.js",
+    "build:only": "node server/build.js --no-sync",
+    "serve": "node server/serve.js",
+    "sync": "node server/cli-sync.js",
+    "collect:indicators": "node server/collect-indicators.js",
+    "promote:indicators": "node server/promote.js",
+    "import:regional": "node server/import-regional.js",
+    "collect:heritage": "node server/collect-heritage.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

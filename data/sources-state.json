@@ -1,0 +1,67 @@
+{
+  "items": [
+    {
+      "sourceId": "cn-gov",
+      "name": "中国政府网 · 政策",
+      "regionCode": "national",
+      "lastRunAt": "2026-10-20T02:54:15.783Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:15.783Z",
+      "lastErrorMessage": null
+    },
+    {
+      "sourceId": "cn-mct",
+      "name": "文化和旅游部 · 政策法规",
+      "regionCode": "national",
+      "lastRunAt": "2026-10-20T02:54:16.264Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:16.264Z",
+      "lastErrorMessage": null
+    },
+    {
+      "sourceId": "zj-gov",
+      "name": "浙江省人民政府 · 法规文件",
+      "regionCode": "zhejiang",
+      "lastRunAt": "2026-10-20T02:54:16.982Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:16.982Z",
+      "lastErrorMessage": null
+    },
+    {
+      "sourceId": "bj-gov",
+      "name": "首都之窗 · 政策文件",
+      "regionCode": "beijing",
+      "lastRunAt": "2026-10-20T02:54:22.327Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:22.327Z",
+      "lastErrorMessage": null
+    },
+    {
+      "sourceId": "zj-ct",
+      "name": "浙江省文化广电和旅游厅 · 通知公告",
+      "regionCode": "zhejiang",
+      "lastRunAt": "2026-10-20T02:54:22.925Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:22.925Z",
+      "lastErrorMessage": null
+    },
+    {
+      "sourceId": "sh-gov",
+      "name": "上海市文化和旅游局 · 政策法规",
+      "regionCode": "shanghai",
+      "lastRunAt": "2026-10-20T02:54:23.347Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:23.347Z",
+      "lastErrorMessage": null
+    },
+    {
+      "sourceId": "hz-gov",
+      "name": "杭州市文化广电旅游局 · 政策与公告",
+      "regionCode": "hangzhou",
+      "lastRunAt": "2026-10-20T02:54:24.152Z",
+      "lastStatus": "ok",
+      "lastSuccessAt": "2026-10-20T02:54:24.152Z",
+      "lastErrorMessage": null
+    }
+  ]
+}
